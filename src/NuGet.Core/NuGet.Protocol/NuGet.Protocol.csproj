@@ -10,6 +10,8 @@
     <XPLATProject>true</XPLATProject>
     <Description>NuGet's implementation for interacting with feeds. Contains functionality for all feed types.</Description>
     <UsePublicApiAnalyzer>perTfm</UsePublicApiAnalyzer>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(IsVsixBuild)' == 'true' ">
@@ -71,5 +73,12 @@
     <InternalsVisibleTo Include="NuGet.VisualStudio.Common.Test" />
     <InternalsVisibleTo Include="NuGet.XPlat.FuncTest" />
     <InternalsVisibleTo Include="Test.Utility" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
