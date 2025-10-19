@@ -74,7 +74,7 @@ namespace NuGet.Protocol.Plugins
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var logRequest = MessageUtilities.DeserializePayload<LogRequest>(request);
+            var logRequest = MessageUtilities.DeserializePayload(request, PluginJsonContext.Default.LogRequest);
             MessageResponseCode responseCode;
 
             if (logRequest.LogLevel >= _logLevel)

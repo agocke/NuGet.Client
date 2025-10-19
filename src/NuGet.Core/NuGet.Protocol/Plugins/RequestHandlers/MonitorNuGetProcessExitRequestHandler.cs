@@ -90,7 +90,7 @@ namespace NuGet.Protocol.Plugins
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var monitorRequest = MessageUtilities.DeserializePayload<MonitorNuGetProcessExitRequest>(request);
+            var monitorRequest = MessageUtilities.DeserializePayload(request, PluginJsonContext.Default.MonitorNuGetProcessExitRequest);
 
             Process process = null;
 

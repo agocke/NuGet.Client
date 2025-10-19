@@ -1,1 +1,4 @@
 #nullable enable
+~static NuGet.Protocol.HttpStreamValidation.ValidateJsonObject(string uri, System.IO.Stream stream) -> void
+~static NuGet.Protocol.Plugins.MessageUtilities.DeserializePayload<TPayload>(NuGet.Protocol.Plugins.Message message, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TPayload> jsonTypeInfo) -> TPayload
+~static NuGet.Protocol.Plugins.JsonSerializationUtilities.Serialize(System.Text.Json.Utf8JsonWriter writer, NuGet.Protocol.Plugins.Message message) -> void

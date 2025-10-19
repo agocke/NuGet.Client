@@ -176,7 +176,7 @@ namespace NuGet.Protocol.Plugins
             cancellationToken.ThrowIfCancellationRequested();
 
             var response = _handshakeFailedResponse;
-            var handshakeRequest = MessageUtilities.DeserializePayload<HandshakeRequest>(request);
+            var handshakeRequest = MessageUtilities.DeserializePayload(request, PluginJsonContext.Default.HandshakeRequest);
 
             if (handshakeRequest != null)
             {

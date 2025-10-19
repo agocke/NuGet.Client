@@ -2,6 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 namespace NuGet.Protocol.Plugins
 {
@@ -44,6 +47,8 @@ namespace NuGet.Protocol.Plugins
         /// <exception cref="ArgumentException">Thrown if <paramref name="requestId" />
         /// is either <see langword="null" /> or an empty string.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="payload" /> is <see langword="null" />.</exception>
+        [RequiresUnreferencedCode("Requires reflection-based serialization")]
+        [RequiresDynamicCode("Requires reflection-based serialization")]
         public static Message Create<TPayload>(
             string requestId,
             MessageType type,
@@ -74,6 +79,8 @@ namespace NuGet.Protocol.Plugins
         /// <returns>The deserialized message payload of type <typeparamref name="TPayload" />
         /// or <see langword="null" /> if no payload exists.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="message" /> is <see langword="null" />.</exception>
+        [RequiresUnreferencedCode("Requires reflection-based serialization")]
+        [RequiresDynamicCode("Requires reflection-based serialization")]
         public static TPayload DeserializePayload<TPayload>(Message message)
         {
             if (message == null)
@@ -87,6 +94,37 @@ namespace NuGet.Protocol.Plugins
             }
 
             return JsonSerializationUtilities.ToObject<TPayload>(message.Payload);
+        }
+
+        /// <summary>
+        /// Deserializes a message payload using System.Text.Json with source generation support.
+        /// </summary>
+        /// <typeparam name="TPayload">The message payload type.</typeparam>
+        /// <param name="message">The message.</param>
+        /// <param name="jsonTypeInfo">The JSON type info for AOT-friendly deserialization.</param>
+        /// <returns>The deserialized message payload of type <typeparamref name="TPayload" />
+        /// or <see langword="null" /> if no payload exists.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="message" /> or <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+        public static TPayload DeserializePayload<TPayload>(Message message, JsonTypeInfo<TPayload> jsonTypeInfo)
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            if (jsonTypeInfo == null)
+            {
+                throw new ArgumentNullException(nameof(jsonTypeInfo));
+            }
+
+            if (message.Payload == null)
+            {
+                return default(TPayload);
+            }
+
+            // Convert JObject to string and then deserialize with System.Text.Json
+            string json = message.Payload.ToString();
+            return JsonSerializer.Deserialize(json, jsonTypeInfo);
         }
     }
 }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace NuGet.Protocol.Plugins
     /// Context for an outbound request.
     /// </summary>
     /// <typeparam name="TResult">The response payload type.</typeparam>
+    [RequiresUnreferencedCode("Requires reflection-based serialization")]
+    [RequiresDynamicCode("Requires reflection-based serialization")]
     public sealed class OutboundRequestContext<TResult> : OutboundRequestContext
     {
         private readonly CancellationTokenSource _cancellationTokenSource;

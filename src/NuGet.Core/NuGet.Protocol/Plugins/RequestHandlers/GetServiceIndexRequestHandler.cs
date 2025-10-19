@@ -115,7 +115,7 @@ namespace NuGet.Protocol.Plugins
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var getRequest = MessageUtilities.DeserializePayload<GetServiceIndexRequest>(request);
+            var getRequest = MessageUtilities.DeserializePayload(request, PluginJsonContext.Default.GetServiceIndexRequest);
             SourceRepository sourceRepository;
             ServiceIndexResourceV3 serviceIndex = null;
             GetServiceIndexResponse responsePayload;

@@ -17,12 +17,16 @@ namespace NuGet.Protocol.Plugins
         /// Gets the logging level for the message.
         /// </summary>
         [JsonRequired]
+        [System.Text.Json.Serialization.JsonPropertyName("logLevel")]
+        [System.Text.Json.Serialization.JsonRequired]
         public LogLevel LogLevel { get; }
 
         /// <summary>
         /// Gets the message.
         /// </summary>
         [JsonRequired]
+        [System.Text.Json.Serialization.JsonPropertyName("message")]
+        [System.Text.Json.Serialization.JsonRequired]
         public string Message { get; }
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace NuGet.Protocol.Plugins
         /// <exception cref="ArgumentException">Thrown if <paramref name="message" /> is either <see langword="null" />
         /// or an empty string.</exception>
         [JsonConstructor]
+        [System.Text.Json.Serialization.JsonConstructor]
         public LogRequest(LogLevel logLevel, string message)
         {
             if (!Enum.IsDefined(typeof(LogLevel), logLevel))

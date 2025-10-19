@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -409,6 +410,8 @@ namespace NuGet.Protocol.Plugins
             await DispatchWithExistingContextAsync(connection, message, cancellationToken);
         }
 
+        [RequiresUnreferencedCode("Requires reflection-based serialization")]
+        [RequiresDynamicCode("Requires reflection-based serialization")]
         private async Task DispatchFaultAsync(
             IConnection connection,
             Message request,
@@ -605,7 +608,7 @@ namespace NuGet.Protocol.Plugins
                 throw new ArgumentNullException(nameof(fault));
             }
 
-            var payload = MessageUtilities.DeserializePayload<Fault>(fault);
+            var payload = MessageUtilities.DeserializePayload(fault, PluginJsonContext.Default.Fault);
 
             throw new ProtocolException(payload.Message);
         }

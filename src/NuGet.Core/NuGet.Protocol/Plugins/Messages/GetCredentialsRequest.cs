@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 using System.Net;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace NuGet.Protocol.Plugins
 {
@@ -16,13 +16,17 @@ namespace NuGet.Protocol.Plugins
         /// <summary>
         /// Gets the package source repository location.
         /// </summary>
-        [JsonRequired]
+        [Newtonsoft.Json.JsonRequired]
+        [JsonPropertyName("PackageSourceRepository")]
+        [System.Text.Json.Serialization.JsonRequired]
         public string PackageSourceRepository { get; }
 
         /// <summary>
         /// Gets the HTTP status code that necessitates credentials.
         /// </summary>
-        [JsonRequired]
+        [Newtonsoft.Json.JsonRequired]
+        [JsonPropertyName("StatusCode")]
+        [System.Text.Json.Serialization.JsonRequired]
         public HttpStatusCode StatusCode { get; }
 
         /// <summary>
@@ -30,7 +34,8 @@ namespace NuGet.Protocol.Plugins
         /// </summary>
         /// <param name="packageSourceRepository">The package source repository location.</param>
         /// <param name="statusCode">The HTTP status code.</param>
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
+        [System.Text.Json.Serialization.JsonConstructor]
         public GetCredentialsRequest(string packageSourceRepository, HttpStatusCode statusCode)
         {
             if (string.IsNullOrEmpty(packageSourceRepository))

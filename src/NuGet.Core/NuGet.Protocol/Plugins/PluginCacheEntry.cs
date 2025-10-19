@@ -38,7 +38,7 @@ namespace NuGet.Protocol.Plugins
 
         /// <summary>
         /// Loads and processes the contet from the generated file if it exists.
-        /// Even after this method is invoked, the operation claims might be null. 
+        /// Even after this method is invoked, the operation claims might be null.
         /// </summary>
         public void LoadFromFile()
         {
