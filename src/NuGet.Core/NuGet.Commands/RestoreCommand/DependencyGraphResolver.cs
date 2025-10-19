@@ -213,19 +213,19 @@ namespace NuGet.Commands
                     context,
                     token);
 
-                if (NuGetEventSource.IsEnabled)
-                {
-                    TraceEvents.CreateRestoreTargetGraphStart(_request.Project.FilePath, frameworkRuntimeDefinition);
-                }
+                //if (NuGetEventSource.IsEnabled)
+                //{
+                //    TraceEvents.CreateRestoreTargetGraphStart(_request.Project.FilePath, frameworkRuntimeDefinition);
+                //}
 
                 // Now that the graph has been resolved, we need to create walk all of the defined dependencies again to detect any cycles and downgrades.  The RestoreTargetGraph stores all of the
                 // information about the graph including the nodes with their parent/child relationships, cycles, downgrades, and conflicts.
                 (bool wasRestoreTargetGraphCreationSuccessful, RestoreTargetGraph restoreTargetGraph) = await CreateRestoreTargetGraphAsync(frameworkRuntimeDefinition, runtimeGraph, isCentralPackageTransitivePinningEnabled, unresolvedPackages, resolvedPackages, resolvedDependencyGraphItems, context);
 
-                if (NuGetEventSource.IsEnabled)
-                {
-                    TraceEvents.CreateRestoreTargetGraphStop(_request.Project.FilePath, frameworkRuntimeDefinition, wasRestoreTargetGraphCreationSuccessful, resolvedPackages.Count, unresolvedPackages.Count);
-                }
+                //if (NuGetEventSource.IsEnabled)
+                //{
+                //    TraceEvents.CreateRestoreTargetGraphStop(_request.Project.FilePath, frameworkRuntimeDefinition, wasRestoreTargetGraphCreationSuccessful, resolvedPackages.Count, unresolvedPackages.Count);
+                //}
 
                 success &= wasRestoreTargetGraphCreationSuccessful;
 
@@ -913,10 +913,10 @@ namespace NuGet.Commands
             RemoteWalkContext context,
             CancellationToken token)
         {
-            if (NuGetEventSource.IsEnabled)
-            {
-                TraceEvents.ResolveDependencyGraphItemsStart(_request.Project.FilePath, pair);
-            }
+            //if (NuGetEventSource.IsEnabled)
+            //{
+            //    TraceEvents.ResolveDependencyGraphItemsStart(_request.Project.FilePath, pair);
+            //}
 
             // Stores the resolved dependency graph items
             Dictionary<LibraryDependencyIndex, ResolvedDependencyGraphItem> resolvedDependencyGraphItems = new(ResolvedDependencyGraphItemDictionarySize);
@@ -1405,10 +1405,10 @@ namespace NuGet.Commands
                 }
             }
 
-            if (NuGetEventSource.IsEnabled)
-            {
-                TraceEvents.ResolveDependencyGraphItemsStop(_request.Project.FilePath, pair, resolvedDependencyGraphItems.Count, restartCount, totalQueuedItemCount);
-            }
+            //if (NuGetEventSource.IsEnabled)
+            //{
+            //    TraceEvents.ResolveDependencyGraphItemsStop(_request.Project.FilePath, pair, resolvedDependencyGraphItems.Count, restartCount, totalQueuedItemCount);
+            //}
 
             return resolvedDependencyGraphItems;
         }
@@ -1458,6 +1458,7 @@ namespace NuGet.Commands
             private const string EventNameCreateRestoreTargetGraph = "DependencyGraphResolver/CreateRestoreTargetGraph";
             private const string EventNameResolveDependencyGraphItems = "DependencyGraphResolver/ResolveDependencyGraphItems";
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CreateRestoreTargetGraphStart(string projectFullPath, FrameworkRuntimeDefinition frameworkRutimeDefinition)
             {
                 EventSourceOptions eventOptions = new()
@@ -1471,6 +1472,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameCreateRestoreTargetGraph, eventOptions, new CreateRestoreTargetGraphStartEventData(projectFullPath, frameworkRutimeDefinition.ToString()));
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CreateRestoreTargetGraphStop(string projectFullPath, FrameworkRuntimeDefinition frameworkRuntimeDefinition, bool wasRestoreTargetGraphCreationSuccessful, int resolvedPackageCount, int unresolvedPackageCount)
             {
                 EventSourceOptions eventOptions = new()
@@ -1483,6 +1485,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameCreateRestoreTargetGraph, eventOptions, new CreateRestoreTargetGraphStopEventData(projectFullPath, frameworkRuntimeDefinition.ToString(), wasRestoreTargetGraphCreationSuccessful, resolvedPackageCount, unresolvedPackageCount));
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void ResolveDependencyGraphItemsStart(string projectFullPath, FrameworkRuntimeDefinition frameworkRuntimeDefinition)
             {
                 EventSourceOptions eventOptions = new()
@@ -1496,6 +1499,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameResolveDependencyGraphItems, eventOptions, new ResolveDependencyGraphItemsStartEventData(projectFullPath, frameworkRuntimeDefinition.ToString()));
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void ResolveDependencyGraphItemsStop(string projectFullPath, FrameworkRuntimeDefinition frameworkRuntimeDefinition, int resolvedPackagesCount, int restartCount, int totalQueuedItemCount)
             {
                 EventSourceOptions eventOptions = new()

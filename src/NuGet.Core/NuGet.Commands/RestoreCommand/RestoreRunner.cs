@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.IO;
@@ -257,9 +258,9 @@ namespace NuGet.Commands
             var request = summaryRequest.Request;
 
             var command = new RestoreCommand(request);
-            if (NuGetEventSource.IsEnabled) TraceEvents.RestoreProjectStart(request.Project.FilePath);
+            //if (NuGetEventSource.IsEnabled) TraceEvents.RestoreProjectStart(request.Project.FilePath);
             var result = await command.ExecuteAsync(token);
-            if (NuGetEventSource.IsEnabled) TraceEvents.RestoreProjectStop(request.Project.FilePath);
+            //if (NuGetEventSource.IsEnabled) TraceEvents.RestoreProjectStop(request.Project.FilePath);
 
             return new RestoreResultPair(summaryRequest, result);
         }
@@ -290,9 +291,9 @@ namespace NuGet.Commands
 
                 // Commit the result
                 log.LogVerbose(Strings.Log_Committing);
-                if (NuGetEventSource.IsEnabled) TraceEvents.CommitAsyncStart(summaryRequest.InputPath);
+                //if (NuGetEventSource.IsEnabled) TraceEvents.CommitAsyncStart(summaryRequest.InputPath);
                 await result.CommitAsync(log, token);
-                if (NuGetEventSource.IsEnabled) TraceEvents.CommitAsyncStop(summaryRequest.InputPath);
+                //if (NuGetEventSource.IsEnabled) TraceEvents.CommitAsyncStop(summaryRequest.InputPath);
             }
             finally
             {
@@ -412,6 +413,7 @@ namespace NuGet.Commands
             private const string EventNameRestoreProject = "RestoreRunner/RestoreProject";
             private const string EventNameCommitAsync = "RestoreRunner/CommitAsync";
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void RestoreProjectStart(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -424,6 +426,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameRestoreProject, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void RestoreProjectStop(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -436,6 +439,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameRestoreProject, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CommitAsyncStart(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -448,6 +452,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameCommitAsync, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CommitAsyncStop(string filePath)
             {
                 var eventOptions = new EventSourceOptions

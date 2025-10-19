@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.IO;
@@ -260,7 +261,7 @@ namespace NuGet.Commands
                 telemetry.StartIntervalMeasure();
 
                 // Create assets file
-                if (NuGetEventSource.IsEnabled) TraceEvents.BuildAssetsFileStart(_request.Project.FilePath);
+                //if (NuGetEventSource.IsEnabled) TraceEvents.BuildAssetsFileStart(_request.Project.FilePath);
 
                 LockFile assetsFile = BuildAssetsFile(
                     _request.ExistingLockFile,
@@ -269,7 +270,7 @@ namespace NuGet.Commands
                     localRepositories,
                     contextForProject);
 
-                if (NuGetEventSource.IsEnabled) TraceEvents.BuildAssetsFileStop(_request.Project.FilePath);
+                //if (NuGetEventSource.IsEnabled) TraceEvents.BuildAssetsFileStop(_request.Project.FilePath);
 
                 telemetry.EndIntervalMeasure(GenerateAssetsFileDuration);
 
@@ -445,9 +446,9 @@ namespace NuGet.Commands
             bool noOpCacheFileEvaluation;
             TimeSpan? cacheFileAge;
 
-            if (NuGetEventSource.IsEnabled) TraceEvents.CalcNoOpRestoreStart(_request.Project.FilePath);
+            //if (NuGetEventSource.IsEnabled) TraceEvents.CalcNoOpRestoreStart(_request.Project.FilePath);
             (cacheFile, noOpCacheFileEvaluation, cacheFileAge) = EvaluateCacheFile();
-            if (NuGetEventSource.IsEnabled) TraceEvents.CalcNoOpRestoreStop(_request.Project.FilePath);
+            //if (NuGetEventSource.IsEnabled) TraceEvents.CalcNoOpRestoreStop(_request.Project.FilePath);
 
             telemetry.TelemetryEvent[NoOpCacheFileEvaluationResult] = noOpCacheFileEvaluation;
             telemetry.TelemetryEvent[ForceRestore] = !_request.AllowNoOp;
@@ -576,8 +577,8 @@ namespace NuGet.Commands
             {
                 using (telemetry.StartIndependentInterval(GenerateRestoreGraphDuration))
                 {
-                    if (NuGetEventSource.IsEnabled)
-                        TraceEvents.BuildRestoreGraphStart(_request.Project.FilePath);
+                    //if (NuGetEventSource.IsEnabled)
+                    //    TraceEvents.BuildRestoreGraphStart(_request.Project.FilePath);
 
                     bool resultSuccessful;
                     if (_enableNewDependencyResolver)
@@ -591,8 +592,8 @@ namespace NuGet.Commands
                     }
                     success &= resultSuccessful;
 
-                    if (NuGetEventSource.IsEnabled)
-                        TraceEvents.BuildRestoreGraphStop(_request.Project.FilePath);
+                    //if (NuGetEventSource.IsEnabled)
+                    //    TraceEvents.BuildRestoreGraphStop(_request.Project.FilePath);
                 }
             }
             else
@@ -2101,6 +2102,7 @@ namespace NuGet.Commands
             private const string EventNameBuildRestoreGraph = "RestoreCommand/BuildRestoreGraph";
             private const string EventNameCalcNoOpRestore = "RestoreCommand/CalcNoOpRestore";
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void BuildAssetsFileStart(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -2113,6 +2115,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameBuildAssetsFile, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void BuildAssetsFileStop(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -2125,6 +2128,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameBuildAssetsFile, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void BuildRestoreGraphStart(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -2137,6 +2141,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameBuildRestoreGraph, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void BuildRestoreGraphStop(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -2149,6 +2154,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameBuildRestoreGraph, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CalcNoOpRestoreStart(string filePath)
             {
                 var eventOptions = new EventSourceOptions
@@ -2161,6 +2167,7 @@ namespace NuGet.Commands
                 NuGetEventSource.Instance.Write(EventNameCalcNoOpRestore, eventOptions, new { FilePath = filePath });
             }
 
+            [RequiresUnreferencedCode("EventSource.Write is not compatible with trimming.")]
             public static void CalcNoOpRestoreStop(string filePath)
             {
                 var eventOptions = new EventSourceOptions
