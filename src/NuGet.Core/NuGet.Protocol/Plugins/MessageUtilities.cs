@@ -72,6 +72,48 @@ namespace NuGet.Protocol.Plugins
         }
 
         /// <summary>
+        /// Instantiates a new <see cref="Message" /> class using System.Text.Json with source generation support.
+        /// </summary>
+        /// <typeparam name="TPayload">The message payload type.</typeparam>
+        /// <param name="requestId">The message request ID.</param>
+        /// <param name="type">The message type.</param>
+        /// <param name="method">The message method.</param>
+        /// <param name="payload">The message payload.</param>
+        /// <param name="jsonTypeInfo">The JSON type info for AOT-friendly serialization.</param>
+        /// <returns>a <see cref="Message" /> instance.</returns>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="requestId" />
+        /// is either <see langword="null" /> or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="payload" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="jsonTypeInfo" /> is <see langword="null" />.</exception>
+        public static Message Create<TPayload>(
+            string requestId,
+            MessageType type,
+            MessageMethod method,
+            TPayload payload,
+            JsonTypeInfo<TPayload> jsonTypeInfo)
+            where TPayload : class
+        {
+            if (string.IsNullOrEmpty(requestId))
+            {
+                throw new ArgumentException(Strings.ArgumentCannotBeNullOrEmpty, nameof(requestId));
+            }
+
+            if (payload == null)
+            {
+                throw new ArgumentNullException(nameof(payload));
+            }
+
+            if (jsonTypeInfo == null)
+            {
+                throw new ArgumentNullException(nameof(jsonTypeInfo));
+            }
+
+            var jsonPayload = JsonSerializationUtilities.FromObject(payload, jsonTypeInfo);
+
+            return new Message(requestId, type, method, jsonPayload);
+        }
+
+        /// <summary>
         /// Deserializes a message payload.
         /// </summary>
         /// <typeparam name="TPayload">The message payload type.</typeparam>

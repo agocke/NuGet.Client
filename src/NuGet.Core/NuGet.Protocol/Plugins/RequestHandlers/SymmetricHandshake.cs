@@ -119,7 +119,9 @@ namespace NuGet.Protocol.Plugins
 
             var response = await _connection.SendRequestAndReceiveResponseAsync<HandshakeRequest, HandshakeResponse>(
                 MessageMethod.Handshake,
+                PluginJsonContext.Default.HandshakeResponse,
                 _outboundHandshakeRequest,
+                PluginJsonContext.Default.HandshakeRequest,
                 cancellationToken);
 
             if (response != null && response.ResponseCode == MessageResponseCode.Success)
@@ -199,7 +201,7 @@ namespace NuGet.Protocol.Plugins
                 }
             }
 
-            await responseHandler.SendResponseAsync(request, response, cancellationToken)
+            await responseHandler.SendResponseAsync(request, response, PluginJsonContext.Default.HandshakeResponse, cancellationToken)
                 .ContinueWith(task => _responseSentTaskCompletionSource.TrySetResult(0));
         }
 

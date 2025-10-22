@@ -90,7 +90,7 @@ namespace NuGet.Protocol.Plugins
 
             var response = new LogResponse(responseCode);
 
-            await responseHandler.SendResponseAsync(request, response, cancellationToken);
+            await responseHandler.SendResponseAsync(request, response, PluginJsonContext.Default.LogResponse, cancellationToken);
         }
 
         /// <summary>

@@ -188,7 +188,7 @@ namespace NuGet.Protocol.Plugins
                     password: null);
             }
 
-            await responseHandler.SendResponseAsync(request, responsePayload, cancellationToken);
+            await responseHandler.SendResponseAsync(request, responsePayload, PluginJsonContext.Default.GetCredentialsResponse, cancellationToken);
         }
 
         private async Task<ICredentials> GetCredentialAsync(

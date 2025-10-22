@@ -123,6 +123,19 @@ namespace NuGet.Protocol
         }
 
         /// <summary>
+        /// Deserialize object directly from JToken using AOT-compatible serialization.
+        /// </summary>
+        /// <typeparam name="T">Type of object.</typeparam>
+        /// <param name="jtoken">The JToken to be deserialized.</param>
+        /// <param name="jsonTypeInfo">The JSON type info for AOT-compatible deserialization.</param>
+        public static T FromJToken<T>(this JToken jtoken, System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> jsonTypeInfo)
+        {
+            // Convert JToken to string, then deserialize using System.Text.Json
+            var jsonString = jtoken.ToString(Formatting.None);
+            return System.Text.Json.JsonSerializer.Deserialize(jsonString, jsonTypeInfo);
+        }
+
+        /// <summary>
         /// Deserialize object directly from JToken.
         /// </summary>
         /// <param name="jtoken">The JToken to be deserialized.</param>

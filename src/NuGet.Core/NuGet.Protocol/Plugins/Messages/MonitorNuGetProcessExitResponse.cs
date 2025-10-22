@@ -16,6 +16,7 @@ namespace NuGet.Protocol.Plugins
         /// Gets the response code.
         /// </summary>
         [JsonRequired]
+        [System.Text.Json.Serialization.JsonRequired]
         public MessageResponseCode ResponseCode { get; }
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace NuGet.Protocol.Plugins
         /// <exception cref="ArgumentException">Thrown if <paramref name="responseCode" />
         /// is an undefined <see cref="MessageResponseCode" /> value.</exception>
         [JsonConstructor]
+        [System.Text.Json.Serialization.JsonConstructor]
         public MonitorNuGetProcessExitResponse(MessageResponseCode responseCode)
         {
             if (!Enum.IsDefined(typeof(MessageResponseCode), responseCode))

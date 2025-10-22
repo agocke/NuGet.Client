@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -99,8 +98,6 @@ namespace NuGet.Protocol.Plugins
             _inboundRequestProcessingHandler = inboundRequestProcessingHandler;
         }
 
-        [RequiresUnreferencedCode("Requires reflection-based serialization")]
-        [RequiresDynamicCode("Requires reflection-based serialization")]
         private async Task ProcessResponseAsync(IRequestHandler requestHandler, Message request, IResponseHandler responseHandler)
         {
             try
@@ -171,8 +168,6 @@ namespace NuGet.Protocol.Plugins
         /// is either <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="exception" />
         /// is <see langword="null" />.</exception>
-        [RequiresUnreferencedCode("Requires reflection-based serialization")]
-        [RequiresDynamicCode("Requires reflection-based serialization")]
         public void BeginFaultAsync(Message request, Exception exception)
         {
             if (request == null)
@@ -190,7 +185,7 @@ namespace NuGet.Protocol.Plugins
                 request.RequestId,
                 MessageType.Fault,
                 request.Method,
-                JsonSerializationUtilities.FromObject(responsePayload));
+                JsonSerializationUtilities.FromObject(responsePayload, PluginJsonContext.Default.Fault));
 
             if (_logger.IsEnabled)
             {
@@ -235,8 +230,6 @@ namespace NuGet.Protocol.Plugins
         /// is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="responseHandler" />
         /// is <see langword="null" />.</exception>
-        [RequiresUnreferencedCode("Requires reflection-based serialization")]
-        [RequiresDynamicCode("Requires reflection-based serialization")]
         public void BeginResponseAsync(
             Message request,
             IRequestHandler requestHandler,
