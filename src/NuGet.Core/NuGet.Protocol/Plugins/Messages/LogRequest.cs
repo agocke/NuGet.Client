@@ -17,17 +17,15 @@ namespace NuGet.Protocol.Plugins
         /// Gets the logging level for the message.
         /// </summary>
         [JsonRequired]
-        [System.Text.Json.Serialization.JsonPropertyName("logLevel")]
         [System.Text.Json.Serialization.JsonRequired]
-        public LogLevel LogLevel { get; }
+        public LogLevel LogLevel { get; init; }
 
         /// <summary>
         /// Gets the message.
         /// </summary>
         [JsonRequired]
-        [System.Text.Json.Serialization.JsonPropertyName("message")]
         [System.Text.Json.Serialization.JsonRequired]
-        public string Message { get; }
+        public string Message { get; init; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogRequest" /> class.

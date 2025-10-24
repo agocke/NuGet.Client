@@ -16,7 +16,7 @@ namespace NuGet.Protocol.Plugins
         [Newtonsoft.Json.JsonRequired]
         [JsonPropertyName("ProcessId")]
         [System.Text.Json.Serialization.JsonRequired]
-        public int ProcessId { get; }
+        public int ProcessId { get; init; }
 
         /// <summary>
         /// Initializes a new <see cref="MonitorNuGetProcessExitRequest" /> class.

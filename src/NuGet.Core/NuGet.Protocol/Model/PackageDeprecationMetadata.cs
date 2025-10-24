@@ -10,15 +10,15 @@ namespace NuGet.Protocol
     public class PackageDeprecationMetadata
     {
         [JsonProperty(PropertyName = JsonProperties.DeprecationMessage)]
-        [StjJsonPropertyName("message")]
+        [StjJsonPropertyName(JsonProperties.DeprecationMessage)]
         public string Message { get; internal set; }
 
         [JsonProperty(PropertyName = JsonProperties.DeprecationReasons)]
-        [StjJsonPropertyName("reasons")]
+        [StjJsonPropertyName(JsonProperties.DeprecationReasons)]
         public IEnumerable<string> Reasons { get; internal set; }
 
         [JsonProperty(PropertyName = JsonProperties.AlternatePackage)]
-        [StjJsonPropertyName("alternatePackage")]
+        [StjJsonPropertyName(JsonProperties.AlternatePackage)]
         public AlternatePackageMetadata AlternatePackage { get; internal set; }
     }
 }

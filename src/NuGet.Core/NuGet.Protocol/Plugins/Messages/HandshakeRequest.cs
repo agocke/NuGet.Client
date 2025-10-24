@@ -19,7 +19,7 @@ namespace NuGet.Protocol.Plugins
         [JsonRequired]
         [System.Text.Json.Serialization.JsonPropertyName("protocolVersion")]
         [System.Text.Json.Serialization.JsonRequired]
-        public SemanticVersion ProtocolVersion { get; }
+        public SemanticVersion ProtocolVersion { get; init; }
 
         /// <summary>
         /// Gets the requestor's minimum plugin protocol version.

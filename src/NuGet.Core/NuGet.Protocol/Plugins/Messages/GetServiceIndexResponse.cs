@@ -19,13 +19,13 @@ namespace NuGet.Protocol.Plugins
         /// </summary>
         [JsonRequired]
         [System.Text.Json.Serialization.JsonRequired]
-        public MessageResponseCode ResponseCode { get; }
+        public MessageResponseCode ResponseCode { get; init; }
 
         /// <summary>
         /// Gets the service index (index.json) for the package source repository.
         /// </summary>
         [System.Text.Json.Serialization.JsonConverter(typeof(JObjectConverter))]
-        public JObject ServiceIndex { get; }
+        public JObject ServiceIndex { get; init; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetServiceIndexResponse" /> class.

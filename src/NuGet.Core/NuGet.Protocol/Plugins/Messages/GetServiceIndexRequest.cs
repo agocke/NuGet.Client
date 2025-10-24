@@ -17,7 +17,7 @@ namespace NuGet.Protocol.Plugins
         [Newtonsoft.Json.JsonRequired]
         [JsonPropertyName("PackageSourceRepository")]
         [System.Text.Json.Serialization.JsonRequired]
-        public string PackageSourceRepository { get; }
+        public string PackageSourceRepository { get; init; }
 
         /// <summary>
         /// Initializes a new <see cref="GetServiceIndexRequest" /> class.

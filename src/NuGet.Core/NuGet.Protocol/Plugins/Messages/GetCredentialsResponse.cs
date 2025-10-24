@@ -17,7 +17,7 @@ namespace NuGet.Protocol.Plugins
         /// Gets the password.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyName("password")]
-        public string Password { get; }
+        public string Password { get; init; }
 
         /// <summary>
         /// Gets the response code.
@@ -25,16 +25,16 @@ namespace NuGet.Protocol.Plugins
         [JsonRequired]
         [System.Text.Json.Serialization.JsonRequired]
         [System.Text.Json.Serialization.JsonPropertyName("responseCode")]
-        public MessageResponseCode ResponseCode { get; }
+        public MessageResponseCode ResponseCode { get; init; }
 
         /// <summary>
         /// Gets the username.
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyName("username")]
-        public string Username { get; }
+        public string Username { get; init; }
 
         [System.Text.Json.Serialization.JsonPropertyName("authenticationTypes")]
-        public IReadOnlyList<string> AuthenticationTypes { get; }
+        public IReadOnlyList<string> AuthenticationTypes { get; init; }
 
 
         /// <summary>

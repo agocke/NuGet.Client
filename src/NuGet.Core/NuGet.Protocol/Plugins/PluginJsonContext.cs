@@ -8,9 +8,8 @@ using System.Text.Json.Serialization;
 namespace NuGet.Protocol.Plugins
 {
     [JsonSourceGenerationOptions(
-        PropertyNameCaseInsensitive = false,
-        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
-        GenerationMode = JsonSourceGenerationMode.Metadata)]
+        GenerationMode = JsonSourceGenerationMode.Metadata,
+        UseStringEnumConverter = true)]
     [JsonSerializable(typeof(GetCredentialsRequest))]
     [JsonSerializable(typeof(GetCredentialsResponse))]
     [JsonSerializable(typeof(GetServiceIndexRequest))]
@@ -52,7 +51,6 @@ namespace NuGet.Protocol.Plugins
     [JsonSerializable(typeof(SetLogLevelResponse))]
     [JsonSerializable(typeof(SetCredentialsRequest))]
     [JsonSerializable(typeof(SetCredentialsResponse))]
-    [JsonSerializable(typeof(Model.V3SearchResults))]
     internal partial class PluginJsonContext : JsonSerializerContext
     {
     }

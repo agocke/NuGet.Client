@@ -1,6 +1,16 @@
 #nullable enable
 NuGet.Protocol.Converters.FingerprintsStjConverter
 NuGet.Protocol.Converters.FingerprintsStjConverter.FingerprintsStjConverter() -> void
+NuGet.Protocol.Plugins.GetCredentialsRequest.StatusCode.init -> void
+NuGet.Protocol.Plugins.GetServiceIndexResponse.ResponseCode.init -> void
+NuGet.Protocol.Plugins.LogRequest.LogLevel.init -> void
+NuGet.Protocol.Plugins.MonitorNuGetProcessExitRequest.ProcessId.init -> void
+NuGet.Protocol.Plugins.MonitorNuGetProcessExitResponse.ResponseCode.init -> void
+~NuGet.Protocol.Plugins.GetCredentialsRequest.PackageSourceRepository.init -> void
+~NuGet.Protocol.Plugins.GetServiceIndexResponse.ServiceIndex.init -> void
+~NuGet.Protocol.Plugins.HandshakeRequest.ProtocolVersion.init -> void
+~NuGet.Protocol.Plugins.LogRequest.Message.init -> void
+~NuGet.Protocol.Plugins.GetServiceIndexRequest.PackageSourceRepository.init -> void
 ~NuGet.Protocol.Plugins.IConnection.SendRequestAndReceiveResponseAsync<TOutbound, TInbound>(NuGet.Protocol.Plugins.MessageMethod method, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TInbound> inboundJti, TOutbound payload, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TOutbound> outboundJti, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<TInbound>
 ~NuGet.Protocol.Plugins.Connection.SendRequestAndReceiveResponseAsync<TOutbound, TInbound>(NuGet.Protocol.Plugins.MessageMethod method, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TInbound> inboundJti, TOutbound payload, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TOutbound> outboundJti, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<TInbound>
 ~NuGet.Protocol.Plugins.IMessageDispatcher.DispatchRequestAsync<TOutbound, TInbound>(NuGet.Protocol.Plugins.MessageMethod method, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TInbound> inboundJti, TOutbound payload, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TOutbound> outboundJti, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<TInbound>

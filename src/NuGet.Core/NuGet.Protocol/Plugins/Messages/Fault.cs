@@ -17,7 +17,7 @@ namespace NuGet.Protocol.Plugins
         [Newtonsoft.Json.JsonRequired]
         [JsonPropertyName("Message")]
         [System.Text.Json.Serialization.JsonRequired]
-        public string Message { get; }
+        public string Message { get; init; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fault" /> class.
