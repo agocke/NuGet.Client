@@ -168,7 +168,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -211,7 +211,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -250,7 +250,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.Success
                             && r.Username == "a" && r.Password == "b"),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -298,7 +298,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.Success
                             && r.Username == "a" && r.Password == "b"),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -331,7 +331,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -378,7 +378,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -430,7 +430,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.Success
                             && r.Username == "a" && r.Password == "b"),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -463,7 +463,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -510,7 +510,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 
@@ -543,7 +543,7 @@ namespace NuGet.Protocol.Plugins.Tests
                         It.Is<Message>(r => r == request),
                         It.Is<GetCredentialsResponse>(r => r.ResponseCode == MessageResponseCode.NotFound
                             && r.Username == null && r.Password == null),
-                        It.Is<JsonTypeInfo<GetCredentialsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetCredentialsResponse>>(),
                         It.IsAny<CancellationToken>()))
                     .Returns(Task.CompletedTask);
 

@@ -209,12 +209,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
             connection.Setup(x => x.SendRequestAndReceiveResponseAsync<CopyNupkgFileRequest, CopyNupkgFileResponse>(
                     It.Is<MessageMethod>(m => m == MessageMethod.CopyNupkgFile),
-                    It.Is<JsonTypeInfo<CopyNupkgFileResponse>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileResponse>>(),
                     It.Is<CopyNupkgFileRequest>(c => c.PackageId == _packageIdentity.Id &&
                         c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                         c.PackageSourceRepository == _packageSourceRepository &&
                         c.DestinationFilePath == destinationFilePath),
-                    It.Is<JsonTypeInfo<CopyNupkgFileRequest>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileRequest>>(),
                     It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new Exception("simulated failure"));
 
@@ -241,12 +241,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
             connection.Setup(x => x.SendRequestAndReceiveResponseAsync<CopyNupkgFileRequest, CopyNupkgFileResponse>(
                     It.Is<MessageMethod>(m => m == MessageMethod.CopyNupkgFile),
-                    It.Is<JsonTypeInfo<CopyNupkgFileResponse>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileResponse>>(),
                     It.Is<CopyNupkgFileRequest>(c => c.PackageId == _packageIdentity.Id &&
                         c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                         c.PackageSourceRepository == _packageSourceRepository &&
                         c.DestinationFilePath == destinationFilePath),
-                    It.Is<JsonTypeInfo<CopyNupkgFileRequest>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileRequest>>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new CopyNupkgFileResponse(MessageResponseCode.Error));
 
@@ -271,12 +271,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
             connection.Setup(x => x.SendRequestAndReceiveResponseAsync<CopyNupkgFileRequest, CopyNupkgFileResponse>(
                     It.Is<MessageMethod>(m => m == MessageMethod.CopyNupkgFile),
-                    It.Is<JsonTypeInfo<CopyNupkgFileResponse>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileResponse>>(),
                     It.Is<CopyNupkgFileRequest>(c => c.PackageId == _packageIdentity.Id &&
                         c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                         c.PackageSourceRepository == _packageSourceRepository &&
                         c.DestinationFilePath == destinationFilePath),
-                    It.Is<JsonTypeInfo<CopyNupkgFileRequest>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<CopyNupkgFileRequest>>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new CopyNupkgFileResponse(MessageResponseCode.Success));
 
@@ -303,12 +303,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
                 connection.Setup(x => x.SendRequestAndReceiveResponseAsync<CopyNupkgFileRequest, CopyNupkgFileResponse>(
                         It.Is<MessageMethod>(m => m == MessageMethod.CopyNupkgFile),
-                        It.Is<JsonTypeInfo<CopyNupkgFileResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<CopyNupkgFileResponse>>(),
                         It.Is<CopyNupkgFileRequest>(c => c.PackageId == _packageIdentity.Id &&
                             c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                             c.PackageSourceRepository == _packageSourceRepository &&
                             c.DestinationFilePath == destinationFilePath),
-                        It.Is<JsonTypeInfo<CopyNupkgFileRequest>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<CopyNupkgFileRequest>>(),
                         It.IsAny<CancellationToken>()))
                     .ReturnsAsync(new CopyNupkgFileResponse(MessageResponseCode.NotFound));
 
@@ -382,12 +382,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
             connection.Setup(x => x.SendRequestAndReceiveResponseAsync<GetPackageHashRequest, GetPackageHashResponse>(
                     It.Is<MessageMethod>(m => m == MessageMethod.GetPackageHash),
-                    It.Is<JsonTypeInfo<GetPackageHashResponse>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<GetPackageHashResponse>>(),
                     It.Is<GetPackageHashRequest>(c => c.PackageId == _packageIdentity.Id &&
                         c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                         c.PackageSourceRepository == _packageSourceRepository &&
                         c.HashAlgorithm == hashAlgorithm),
-                    It.Is<JsonTypeInfo<GetPackageHashRequest>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<GetPackageHashRequest>>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
@@ -413,12 +413,12 @@ namespace NuGet.Protocol.Plugins.Tests
 
             connection.Setup(x => x.SendRequestAndReceiveResponseAsync<GetPackageHashRequest, GetPackageHashResponse>(
                     It.Is<MessageMethod>(m => m == MessageMethod.GetPackageHash),
-                    It.Is<JsonTypeInfo<GetPackageHashResponse>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<GetPackageHashResponse>>(),
                     It.Is<GetPackageHashRequest>(c => c.PackageId == _packageIdentity.Id &&
                         c.PackageVersion == _packageIdentity.Version.ToNormalizedString() &&
                         c.PackageSourceRepository == _packageSourceRepository &&
                         c.HashAlgorithm == hashAlgorithm),
-                    It.Is<JsonTypeInfo<GetPackageHashRequest>>(j => j != null),
+                    It.IsNotNull<JsonTypeInfo<GetPackageHashRequest>>(),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 

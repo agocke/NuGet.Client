@@ -294,17 +294,17 @@ namespace NuGet.Protocol.Plugins.Tests
             {
                 test.Connection.Setup(x => x.SendRequestAndReceiveResponseAsync<PrefetchPackageRequest, PrefetchPackageResponse>(
                         It.Is<MessageMethod>(m => m == MessageMethod.PrefetchPackage),
-                        It.Is<JsonTypeInfo<PrefetchPackageResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<PrefetchPackageResponse>>(),
                         It.IsNotNull<PrefetchPackageRequest>(),
-                        It.Is<JsonTypeInfo<PrefetchPackageRequest>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<PrefetchPackageRequest>>(),
                         It.IsAny<CancellationToken>()))
                     .ReturnsAsync(new PrefetchPackageResponse(MessageResponseCode.Success));
 
                 test.Connection.Setup(x => x.SendRequestAndReceiveResponseAsync<GetFilesInPackageRequest, GetFilesInPackageResponse>(
                         It.Is<MessageMethod>(m => m == MessageMethod.GetFilesInPackage),
-                        It.Is<JsonTypeInfo<GetFilesInPackageResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetFilesInPackageResponse>>(),
                         It.IsNotNull<GetFilesInPackageRequest>(),
-                        It.Is<JsonTypeInfo<GetFilesInPackageRequest>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetFilesInPackageRequest>>(),
                         It.IsAny<CancellationToken>()))
                     .ReturnsAsync(new GetFilesInPackageResponse(MessageResponseCode.Success, new[] { $"{test.PackageIdentity.Id}.nuspec" }));
 
@@ -312,9 +312,9 @@ namespace NuGet.Protocol.Plugins.Tests
 
                 test.Connection.Setup(x => x.SendRequestAndReceiveResponseAsync<CopyFilesInPackageRequest, CopyFilesInPackageResponse>(
                         It.Is<MessageMethod>(m => m == MessageMethod.CopyFilesInPackage),
-                        It.Is<JsonTypeInfo<CopyFilesInPackageResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<CopyFilesInPackageResponse>>(),
                         It.IsNotNull<CopyFilesInPackageRequest>(),
-                        It.Is<JsonTypeInfo<CopyFilesInPackageRequest>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<CopyFilesInPackageRequest>>(),
                         It.IsAny<CancellationToken>()))
                    .Callback<MessageMethod, JsonTypeInfo<CopyFilesInPackageResponse>, CopyFilesInPackageRequest, JsonTypeInfo<CopyFilesInPackageRequest>, CancellationToken>(
                         (method, _, request, _, cancellationToken) =>
@@ -519,11 +519,11 @@ namespace NuGet.Protocol.Plugins.Tests
 
                 connection.Setup(x => x.SendRequestAndReceiveResponseAsync<GetPackageVersionsRequest, GetPackageVersionsResponse>(
                         It.Is<MessageMethod>(m => m == MessageMethod.GetPackageVersions),
-                        It.Is<JsonTypeInfo<GetPackageVersionsResponse>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetPackageVersionsResponse>>(),
                         It.Is<GetPackageVersionsRequest>(
                             c => string.Equals(c.PackageId, packageIdentity.Id, StringComparison.OrdinalIgnoreCase) &&
                             c.PackageSourceRepository == packageSource.Source),
-                        It.Is<JsonTypeInfo<GetPackageVersionsRequest>>(j => j != null),
+                        It.IsNotNull<JsonTypeInfo<GetPackageVersionsRequest>>(),
                         It.IsAny<CancellationToken>()))
                     .ReturnsAsync(response);
 
