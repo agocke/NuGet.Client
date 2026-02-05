@@ -1,8 +1,12 @@
-# EventSource Conversion Skill: Self-Describing to Manifest-Based
+# EventSource Conversion Skill: Self-Describing to AOT-Compatible Manifest-Based
 
 ## Overview
 
-This skill converts self-describing EventSource implementations (using `Write<T>` with `EventSourceOptions` and `[EventData]` structs) to manifest-based EventSource implementations (using `WriteEvent` with `[Event]` attributes).
+This skill converts self-describing EventSource implementations (using `Write<T>` with `EventSourceOptions` and `[EventData]` structs) to **AOT-compatible** manifest-based EventSource implementations (using `WriteEvent` with `[Event]` attributes).
+
+**AOT Compatibility Requirements:**
+- Every `[Event]` method must only use **primitive types** as parameters (see Step 6 for allowed types)
+- The EventSource class must suppress trimming/AOT warnings with appropriate attributes
 
 ## When to Use
 
@@ -36,7 +40,8 @@ Create a new EventSource class (or update existing one) that:
 2. Has `[EventSource(Name = "Microsoft-NuGet")]` attribute (preserve existing name!)
 3. Has a singleton `Instance` property
 4. Defines `Keywords` and `Tasks` nested classes
-5. Has `[Event(...)]` attributed methods
+5. Has `[Event(...)]` attributed methods with **primitive types only**
+6. **Each `[Event]` method** must have AOT/trimming suppression attributes (see Step 5)
 
 ### Step 3: Assign Event IDs
 
@@ -84,7 +89,7 @@ public static void SomethingStart(string path, string projectFullPath)
 private record struct SomethingEventData(string Path, string ProjectFullPath);
 ```
 
-**After (manifest-based):**
+**After (AOT-compatible manifest-based):**
 ```csharp
 private const int SomethingStartEventId = 1;
 
@@ -93,22 +98,41 @@ private const int SomethingStartEventId = 1;
        Keywords = Keywords.SdkResolver | Keywords.Performance, 
        Opcode = EventOpcode.Start, 
        Task = Tasks.Something)]
+[UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026:RequiresUnreferencedCode", Justification = "Event parameters are primitive types only")]
+[UnconditionalSuppressMessage("AotAnalysis", "IL3050:RequiresDynamicCode", Justification = "Event parameters are primitive types only")]
 public void SomethingStart(string path, string projectFullPath)
 {
     WriteEvent(SomethingStartEventId, path ?? string.Empty, projectFullPath ?? string.Empty);
 }
 ```
 
-### Step 6: Handle Type Conversions
+### Step 6: Handle Type Conversions (AOT-Compatible Primitives Only)
 
-`WriteEvent` has limitations. Convert types as needed:
+**CRITICAL FOR AOT COMPATIBILITY:** `[Event]` methods must only use primitive types that `WriteEvent` supports natively. Using non-primitive types will cause AOT/trimming issues.
 
-| Original Type | Converted Type | Conversion |
-|--------------|----------------|------------|
-| `bool` | `int` | `success ? 1 : 0` |
-| `Guid` | `string` | `.ToString()` |
-| `null` strings | `string.Empty` | `value ?? string.Empty` |
-| Complex objects | Flatten to primitives | Extract properties |
+**Allowed primitive types for `[Event]` method parameters:**
+- `int`, `long`, `byte`, `short`
+- `float`, `double`
+- `string`
+- `bool` (but convert to `int` for `WriteEvent` call)
+- `Guid` (but convert to `string` for `WriteEvent` call)
+
+**NOT allowed (will break AOT):**
+- Custom structs or classes
+- Arrays (except `byte[]` in some overloads)
+- Enums (convert to `int`)
+- Nullable types
+- `object`
+
+Convert types as needed:
+
+| Original Type | Parameter Type | WriteEvent Conversion |
+|--------------|----------------|----------------------|
+| `bool` | `int` | Pass directly (already converted at call site) |
+| `Guid` | `string` | Pass directly (already converted at call site) |
+| `null` strings | `string` | `value ?? string.Empty` |
+| `enum` | `int` | Pass directly (already converted at call site) |
+| Complex objects | Flatten to primitives | Extract properties at call site |
 
 ### Step 7: Update Call Sites
 
@@ -168,10 +192,12 @@ private static class TraceEvents
 }
 ```
 
-### After (Manifest-Based)
+### After (AOT-Compatible Manifest-Based)
 
 ```csharp
 // In SdkResolverEventSource.cs
+using System.Diagnostics.CodeAnalysis;
+
 [EventSource(Name = "Microsoft-NuGet-SdkResolver")]
 internal sealed partial class SdkResolverEventSource : EventSource
 {
@@ -196,6 +222,8 @@ internal sealed partial class SdkResolverEventSource : EventSource
            Keywords = Keywords.SdkResolver | Keywords.Performance, 
            Opcode = EventOpcode.Start, 
            Task = Tasks.Resolve)]
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026:RequiresUnreferencedCode", Justification = "Event parameters are primitive types only")]
+    [UnconditionalSuppressMessage("AotAnalysis", "IL3050:RequiresDynamicCode", Justification = "Event parameters are primitive types only")]
     public void ResolveStart(string name, string version)
     {
         WriteEvent(ResolveStartEventId, name ?? string.Empty, version ?? string.Empty);
@@ -206,6 +234,8 @@ internal sealed partial class SdkResolverEventSource : EventSource
            Keywords = Keywords.SdkResolver | Keywords.Performance, 
            Opcode = EventOpcode.Stop, 
            Task = Tasks.Resolve)]
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026:RequiresUnreferencedCode", Justification = "Event parameters are primitive types only")]
+    [UnconditionalSuppressMessage("AotAnalysis", "IL3050:RequiresDynamicCode", Justification = "Event parameters are primitive types only")]
     public void ResolveStop(string name, string version)
     {
         WriteEvent(ResolveStopEventId, name ?? string.Empty, version ?? string.Empty);
@@ -224,6 +254,7 @@ For each file with self-describing EventSource usage:
 - [ ] Identify all event names (const strings like `EventNameXxx`)
 - [ ] Identify all `[EventData]` record structs
 - [ ] Create/update EventSource class with `[EventSource(Name = "...")]`
+- [ ] **Add AOT suppression attributes** (`UnconditionalSuppressMessage` for IL2026 and IL3050)
 - [ ] Define numeric event ID constants (stable, sequential)
 - [ ] Define `Tasks` for Start/Stop event pairs
 - [ ] Create `[Event(...)]` attributed methods with:
@@ -232,9 +263,12 @@ For each file with self-describing EventSource usage:
   - `Keywords` (same as original)
   - `Opcode` (Start/Stop)
   - `Task` (for Start/Stop correlation)
+  - **Primitive types only** for parameters
 - [ ] Flatten `[EventData]` struct fields to method parameters
+- [ ] **Verify all parameters are AOT-compatible primitives** (int, long, string, etc.)
 - [ ] Handle null strings with `?? string.Empty`
 - [ ] Convert `bool` to `int` for WriteEvent compatibility
+- [ ] Convert `enum` to `int` for AOT compatibility
 - [ ] Update all call sites to use new EventSource instance
 - [ ] Remove old `TraceEvents` class and `[EventData]` structs
 - [ ] Verify ETW events with PerfView or logman
